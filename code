@@ -1,0 +1,66 @@
+package tasks;
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        int range = 100;
+        int maxAttempts = 10;
+        int totalScore = 0;
+
+        System.out.println("Welcome to the Number Guessing Game!");
+
+        boolean keepPlaying = true;
+        while (keepPlaying) {
+            int randomNumber = random.nextInt(range) + 1;
+            int numberOfAttempts = 0;
+            boolean hasWon = false;
+
+            System.out.println("\nNew Round");
+            System.out.println("Guess a number between 1 and " + range + ":");
+
+            while (numberOfAttempts < maxAttempts) {
+                int userGuess = scanner.nextInt();
+                numberOfAttempts++;
+
+                if (userGuess < 1 || userGuess > range) {
+                    System.out.println("Invalid guess. Please enter a number between 1 and " + range + ".");
+                } else if (userGuess < randomNumber) {
+                    System.out.println("The number is higher than " + userGuess + ".");
+                } else if (userGuess > randomNumber) {
+                    System.out.println("The number is lower than " + userGuess + ".");
+                } else {
+                    hasWon = true;
+                    break;
+                }
+
+                System.out.println("Attempts remaining: " + (maxAttempts - numberOfAttempts));
+            }
+
+            if (hasWon) {
+                int pointsEarned = maxAttempts - numberOfAttempts + 1;
+                totalScore += pointsEarned;
+                System.out.println("Congratulations! You've guessed the correct number in " + numberOfAttempts + " attempts.");
+                System.out.println("Points earned: " + pointsEarned);
+            } else {
+                System.out.println("Sorry, you've used all attempts. The correct number was " + randomNumber + ".");
+            }
+
+            System.out.println("Your total score: " + totalScore);
+
+            System.out.println("Do you want to play again? (yes/no)");
+            String playAgainResponse = scanner.next();
+            if (!playAgainResponse.equalsIgnoreCase("yes")) {
+                keepPlaying = false;
+            }
+        }
+
+        System.out.println("\nGame Over!");
+        System.out.println("Your final score: " + totalScore);
+
+        scanner.close();
+    }
+}
